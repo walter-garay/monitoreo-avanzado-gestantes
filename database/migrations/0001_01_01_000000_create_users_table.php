@@ -14,9 +14,20 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('apellidos')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
+            $table->date('fecha_inicio_gestacion')->nullable();
+            $table->float('peso_kg')->nullable();
+            $table->float('altura_cm')->nullable();
+
+            $table->enum('rol', ['gestante', 'staff', 'admin']);
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->foreignId('centro_id')->nullable()->constrained('centro_saluds')->onDelete('cascade');
+
             $table->rememberToken();
             $table->timestamps();
         });
