@@ -10,14 +10,18 @@ use App\Http\Controllers\Api\ContenidoEducativoController;
 use App\Http\Controllers\Api\SignoVitalController;
 use App\Http\Controllers\Api\AlertaController;
 use App\Http\Controllers\Api\NotificacionController;
+use App\Http\Controllers\Api\FirebaseController;
+
 
 Route::prefix('v1')->group(function () {
 
     // Autenticación (para app móvil)
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
     // Rutas protegidas con Sanctum
     Route::middleware('auth:sanctum')->group(function () {
 
@@ -32,8 +36,10 @@ Route::prefix('v1')->group(function () {
         Route::put('/gestantes/{id}', [GestanteController::class, 'update']);
 
         // Síntomas (ingresados por la gestante)
-        Route::post('/gestantes/{id}/sintomas', [SintomaController::class, 'store']);
-        Route::get('/gestantes/{id}/sintomas', [SintomaController::class, 'index']);
+        // Route::post('/gestantes/{id}/sintomas', [SintomaController::class, 'store']);
+        // Route::get('/gestantes/{id}/sintomas', [SintomaController::class, 'index']);
+        Route::get('/sintomas', [SintomaController::class, 'index']);
+        Route::post('/sintomas', [SintomaController::class, 'store']);
 
         // Signos vitales recibidos del wearable
         Route::post('/gestantes/{id}/signos-vitales', [SignoVitalController::class, 'store']);
@@ -47,5 +53,8 @@ Route::prefix('v1')->group(function () {
 
         // Notificaciones
         Route::get('/gestantes/{id}/notificaciones', [NotificacionController::class, 'index']);
+        Route::post('/fcm/token', [FirebaseController::class, 'storeToken']);
+
+
     });
 });

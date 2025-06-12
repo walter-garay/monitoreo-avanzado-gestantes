@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sintomas', function (Blueprint $table) {
+        Schema::create('device_tokens', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('hora_inicio');
-            $table->timestamp('hora_fin')->nullable();
-            $table->enum('severidad', ['leve', 'moderado', 'grave']);
-            $table->text('descripcion');
-
-            $table->foreignId('gestante_id')->constrained('users')->onDelete('cascade');
-
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('token')->unique();
+            $table->string('platform')->default('android');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sintomas');
+        Schema::dropIfExists('device_tokens');
     }
 };

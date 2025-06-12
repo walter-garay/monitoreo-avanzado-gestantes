@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // centro_id
             $table->string('nombre');
             $table->string('direccion');
-            $table->string('info_contacto')->nullable();
+            $table->string('telefono')->nullable();
             $table->timestamps();
         });
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Api\GestanteController;
+use App\Http\Controllers\GestanteController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
 
     // Gestión de gestantes
     Route::resource('gestantes', GestanteController::class)->only(['index', 'show']);
