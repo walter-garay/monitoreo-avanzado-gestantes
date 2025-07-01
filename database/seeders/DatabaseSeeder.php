@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CentroSaludSeeder::class,
             GestanteSeeder::class,
+            PresionArterialSeeder::class,
+            TemperaturaCorporalSeeder::class,
+            FrecuenciaCardiacaSeeder::class,
+            SintomaSeeder::class,
         ]);
     }
 }

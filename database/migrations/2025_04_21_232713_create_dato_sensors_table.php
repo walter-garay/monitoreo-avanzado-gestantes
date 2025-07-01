@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->foreignId('dispositivo_id')->constrained('dispositivo_wearables')->onDelete('cascade');
             $table->foreignId('tipo_sensor_id')->constrained('tipo_sensors')->onDelete('cascade');
-            
+
             $table->timestamps();
         });
 

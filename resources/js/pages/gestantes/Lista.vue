@@ -52,7 +52,7 @@ const handleSearch = () => {
             '/gestantes',
             {
                 search: search.value,
-            }
+            },
             {
                 preserveState: true,
                 replace: true,
@@ -96,7 +96,7 @@ watch(search, handleSearch);
                         <CardDescription v-if="gestante.centro_id"> <strong>ID Centro de Salud:</strong> {{ gestante.centro_id }} </CardDescription>
                     </CardContent>
                     <CardFooter class="flex justify-end">
-                        <Button>Monitorear</Button>
+                        <Button @click="router.get(`/monitor/${gestante.id}`)">Monitorear</Button>
                     </CardFooter>
                 </Card>
             </div>

@@ -15,7 +15,7 @@ export const formatDate = (date: string | undefined, formatType: FormatType = 'd
         case 'long':
             return formatLongDate(dateObj);
         case 'medium':
-            return formatMediumDate(dateObj); 
+            return formatMediumDate(dateObj);
         case 'short':
             return formatShortDate(dateObj);
         case 'withTime':
@@ -24,7 +24,6 @@ export const formatDate = (date: string | undefined, formatType: FormatType = 'd
             return formatDefaultDate(dateObj);
     }
 };
-
 
 // Formato largo: 24 de diciembre, 2025
 const formatLongDate = (date: Date): string => {
@@ -38,9 +37,9 @@ const formatMediumDate = (date: Date): string => {
     const dateParts = new Intl.DateTimeFormat('es-ES', options).formatToParts(date);
 
     // Accedemos a las partes de la fecha
-    const day = dateParts.find(part => part.type === 'day')?.value;
-    const month = dateParts.find(part => part.type === 'month')?.value;
-    const year = dateParts.find(part => part.type === 'year')?.value;
+    const day = dateParts.find((part) => part.type === 'day')?.value;
+    const month = dateParts.find((part) => part.type === 'month')?.value;
+    const year = dateParts.find((part) => part.type === 'year')?.value;
 
     // Retornamos en el formato "9 de marzo, 1995"
     return `${day} de ${month}, ${year}`;
@@ -60,16 +59,16 @@ const formatDateWithTime = (date: Date): string => {
         year: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true
+        hour12: true,
     };
-    const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
-
-    // Adjusting time format to "AM/PM"
-    const [day, month, year, time, ampm] = formattedDate.split(/[\s,\/:]+/);
-    const [hour, minute] = time.split(':');
-    const formattedTime = `${hour}:${minute} ${ampm.toLowerCase()}`;
-
-    return `${day}/${month}/${year} ${formattedTime}`;
+    const parts = new Intl.DateTimeFormat('es-ES', options).formatToParts(date);
+    const day = parts.find((p) => p.type === 'day')?.value;
+    const month = parts.find((p) => p.type === 'month')?.value;
+    const year = parts.find((p) => p.type === 'year')?.value;
+    const hour = parts.find((p) => p.type === 'hour')?.value;
+    const minute = parts.find((p) => p.type === 'minute')?.value;
+    const dayPeriod = parts.find((p) => p.type === 'dayPeriod')?.value?.toLowerCase();
+    return `${day}/${month}/${year} ${hour}:${minute} ${dayPeriod}`;
 };
 
 // Formato predeterminado: 24/12/2025
