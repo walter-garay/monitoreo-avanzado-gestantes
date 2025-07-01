@@ -7,10 +7,32 @@ use App\Http\Controllers\Controller;
 use App\Models\DeviceToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;  // Asegúrate de importar el Log
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 
 class FirebaseController extends Controller
 {
+
+    protected $messaging;
+
+    public function __construct()
+    {
+        $this->messaging = (new Factory)
+            ->withServiceAccount(storage_path('app/firebase/sistema-monitoreo-2c6d2-firebase-adminsdk-fbsvc-06af762628.json'))
+            ->createMessaging();
+    }
+
+    public function sendToDevice(string $token, string $title, string $body, array $data = [])
+    {
+        // Construir el mensaje con el token directamente
+        $message = CloudMessage::new($token)  // Aquí pasamos el token directamente
+            ->withNotification(Notification::create($title, $body))
+            ->withData($data);
+
+        return $this->messaging->send($message);
+    }
 
     public function storeToken(Request $request)
     {
