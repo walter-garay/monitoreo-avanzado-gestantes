@@ -16,20 +16,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Ana Torres',
-            'rol' => 'gestante',
-            'email' => 'ana.torres@example.com',
-            'password' => Hash::make('ana.torres@example.com'),
-        ]);
-
-        User::create([
-            'name' => 'Luis Gómez',
-            'rol' => 'gestante', // Cambiado de 'staff' a 'gestante'
-            'email' => 'luis.gomez@example.com',
-            'password' => Hash::make('luis.gomez@example.com'),
-        ]);
-
-        User::create([
             'name' => 'Marta Ríos',
             'rol' => 'admin',
             'email' => 'marta.rios@example.com',
@@ -38,7 +24,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Carla Pérez',
-            'rol' => 'gestante',
+            'rol' => 'admin',
             'email' => 'carla.perez@example.com',
             'password' => Hash::make('carla.perez@example.com'),
         ]);

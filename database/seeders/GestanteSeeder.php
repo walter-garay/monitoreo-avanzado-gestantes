@@ -24,7 +24,7 @@ class GestanteSeeder extends Seeder
                 'altura_cm' => 165.0,
                 'rol' => 'gestante',
                 'email' => 'coly@gmail.com',
-                'password' => Hash::make('coly123456'),
+                'password' => Hash::make('coly@gmail.com'),
                 'centro_id' => 1, // Asigna un ID de centro existente si tienes centros de salud
             ],
             [
