@@ -18,6 +18,7 @@ Route::prefix('v1')->group(function () {
     // Autenticación (para app móvil)
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     // Rutas protegidas con Sanctum
     Route::middleware('auth:sanctum')->group(function () {
@@ -53,6 +54,8 @@ Route::prefix('v1')->group(function () {
         // Notificaciones
         Route::get('/gestantes/{id}/notificaciones', [NotificacionController::class, 'index']);
         Route::post('/fcm/token', [FirebaseController::class, 'storeToken']);
+        // Notificación manual a gestante
+        Route::post('/gestantes/{id}/notificar', [FirebaseController::class, 'notificar']);
 
 
     });

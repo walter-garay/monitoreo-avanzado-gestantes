@@ -123,6 +123,55 @@ const chartOptions = {
         y: { display: true, title: { display: false } },
     },
 };
+
+// Lógica de riesgo/preriesgo para el punto parpadeante
+function isPresionRiesgosa(p: any) {
+    if (!p) return false;
+    const s = Number(p.valor_sistolica);
+    const d = Number(p.valor_diastolica);
+    return s >= 140 || d >= 90;
+}
+function isPresionPreRiesgosa(p: any) {
+    if (!p) return false;
+    const s = Number(p.valor_sistolica);
+    const d = Number(p.valor_diastolica);
+    return (s >= 121 && s <= 139) || (d >= 81 && d <= 89);
+}
+function isFrecuenciaRiesgosa(f: any) {
+    if (!f) return false;
+    const v = Number(f.valor);
+    return v > 110 || v < 50;
+}
+function isFrecuenciaPreRiesgosa(f: any) {
+    if (!f) return false;
+    const v = Number(f.valor);
+    return v >= 101 && v <= 110;
+}
+function isTemperaturaRiesgosa(t: any) {
+    if (!t) return false;
+    const v = Number(t.valor);
+    return v > 38.0 || v < 36.0;
+}
+function isTemperaturaPreRiesgosa(t: any) {
+    if (!t) return false;
+    const v = Number(t.valor);
+    return v >= 37.6 && v <= 38.0;
+}
+const presionStatus = computed(() => {
+    if (isPresionRiesgosa(props.ultimaPresion)) return 'riesgo';
+    if (isPresionPreRiesgosa(props.ultimaPresion)) return 'preriesgo';
+    return 'normal';
+});
+const frecuenciaStatus = computed(() => {
+    if (isFrecuenciaRiesgosa(props.ultimaFrecuencia)) return 'riesgo';
+    if (isFrecuenciaPreRiesgosa(props.ultimaFrecuencia)) return 'preriesgo';
+    return 'normal';
+});
+const temperaturaStatus = computed(() => {
+    if (isTemperaturaRiesgosa(props.ultimaTemperatura)) return 'riesgo';
+    if (isTemperaturaPreRiesgosa(props.ultimaTemperatura)) return 'preriesgo';
+    return 'normal';
+});
 </script>
 
 <template>
@@ -165,17 +214,40 @@ const chartOptions = {
                 </Card>
             </div>
             <div class="mb-4 flex flex-col gap-4">
-                <div v-if="presionData" class="rounded bg-white p-2 shadow">
+                <div v-if="presionData" class="relative rounded bg-white p-2 shadow">
+                    <span
+                        class="absolute top-2 right-2 h-3 w-3 animate-pulse rounded-full"
+                        :class="{
+                            'bg-red-500': presionStatus === 'riesgo',
+                            'bg-yellow-400': presionStatus === 'preriesgo',
+                            'bg-green-500': presionStatus === 'normal',
+                        }"
+                    ></span>
                     <Line :data="presionData" :options="chartOptions" />
                 </div>
-                <div v-if="frecuenciaData" class="rounded bg-white p-2 shadow">
+                <div v-if="frecuenciaData" class="relative rounded bg-white p-2 shadow">
+                    <span
+                        class="absolute top-2 right-2 h-3 w-3 animate-pulse rounded-full"
+                        :class="{
+                            'bg-red-500': frecuenciaStatus === 'riesgo',
+                            'bg-yellow-400': frecuenciaStatus === 'preriesgo',
+                            'bg-green-500': frecuenciaStatus === 'normal',
+                        }"
+                    ></span>
                     <Line :data="frecuenciaData" :options="chartOptions" />
                 </div>
-                <div v-if="temperaturaData" class="rounded bg-white p-2 shadow">
+                <div v-if="temperaturaData" class="relative rounded bg-white p-2 shadow">
+                    <span
+                        class="absolute top-2 right-2 h-3 w-3 animate-pulse rounded-full"
+                        :class="{
+                            'bg-red-500': temperaturaStatus === 'riesgo',
+                            'bg-yellow-400': temperaturaStatus === 'preriesgo',
+                            'bg-green-500': temperaturaStatus === 'normal',
+                        }"
+                    ></span>
                     <Line :data="temperaturaData" :options="chartOptions" />
                 </div>
             </div>
-            <div class="text-muted-foreground">Aquí se mostrará el seguimiento de salud de la gestante (signos vitales, gráficas, etc.).</div>
         </CardContent>
     </Card>
 </template>

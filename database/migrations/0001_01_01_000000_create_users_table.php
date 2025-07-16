@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('apellidos')->nullable();
+            $table->string('telefono')->nullable();
             $table->date('fecha_nacimiento')->nullable();
             $table->date('fecha_inicio_gestacion')->nullable();
             $table->float('peso_kg')->nullable();

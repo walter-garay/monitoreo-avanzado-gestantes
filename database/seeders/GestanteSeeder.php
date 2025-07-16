@@ -18,6 +18,7 @@ class GestanteSeeder extends Seeder
             [
                 'name' => 'Scoly',
                 'apellidos' => 'Del Castillo Pérez',
+                'telefono' => '999111222',
                 'fecha_nacimiento' => '1995-03-10',
                 'fecha_inicio_gestacion' => '2023-01-15',
                 'peso_kg' => 60.5,
@@ -30,6 +31,7 @@ class GestanteSeeder extends Seeder
             [
                 'name' => 'María',
                 'apellidos' => 'López Fernández',
+                'telefono' => '999222333',
                 'fecha_nacimiento' => '1998-07-22',
                 'fecha_inicio_gestacion' => '2023-02-20',
                 'peso_kg' => 58.0,

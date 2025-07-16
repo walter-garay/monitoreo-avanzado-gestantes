@@ -69,8 +69,6 @@ watch(search, handleSearch);
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <h2 class="text-2xl font-bold tracking-tight">Gestantes</h2>
-
             <!-- Search Input -->
             <div class="mb-4">
                 <Input v-model="search" placeholder="Buscar gestante..." />

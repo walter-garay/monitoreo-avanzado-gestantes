@@ -77,4 +77,36 @@ class FirebaseController extends Controller
         }
     }
 
+    /**
+     * Envía una notificación FCM a todos los dispositivos de la gestante indicada
+     */
+    public function notificar(Request $request, $id)
+    {
+        $request->validate([
+            'titulo' => 'required|string',
+            'descripcion' => 'required|string',
+        ]);
+
+        $user = \App\Models\User::findOrFail($id);
+        $tokens = $user->deviceTokens()->pluck('token')->toArray();
+        if (empty($tokens)) {
+            return response()->json(['error' => 'La gestante no tiene dispositivos registrados'], 404);
+        }
+
+        $errores = [];
+        foreach ($tokens as $token) {
+            try {
+                $this->sendToDevice($token, $request->titulo, $request->descripcion);
+            } catch (\Exception $e) {
+                $errores[] = $token;
+            }
+        }
+
+        if (count($errores) === count($tokens)) {
+            return response()->json(['error' => 'No se pudo enviar la notificación a ningún dispositivo'], 500);
+        }
+
+        return response()->json(['message' => 'Notificación enviada correctamente']);
+    }
+
 }
