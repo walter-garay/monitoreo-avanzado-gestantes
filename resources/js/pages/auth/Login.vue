@@ -28,7 +28,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Iniciar sesión" description="Ingresa tus credenciales para acceder">
+    <AuthBase title="INGRSAR" description="Ingresa tus credenciales para acceder">
         <Head title="Iniciar sesión" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
