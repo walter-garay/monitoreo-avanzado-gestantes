@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\GestanteController;
 use App\Http\Controllers\Api\SintomaController;
 use App\Http\Controllers\Api\ContenidoEducativoController;
 use App\Http\Controllers\Api\SignoVitalController;
@@ -30,14 +29,7 @@ Route::prefix('v1')->group(function () {
             return $request->user();
         });
 
-        // Gestantes
-        Route::get('/gestantes', [GestanteController::class, 'index']);
-        Route::get('/gestantes/{id}', [GestanteController::class, 'show']);
-        Route::put('/gestantes/{id}', [GestanteController::class, 'update']);
-
-        // Síntomas (ingresados por la gestante)
-        // Route::post('/gestantes/{id}/sintomas', [SintomaController::class, 'store']);
-        // Route::get('/gestantes/{id}/sintomas', [SintomaController::class, 'index']);
+        // Síntomas del usuario auth (gestante)
         Route::get('/sintomas', [SintomaController::class, 'index']);
         Route::post('/sintomas', [SintomaController::class, 'store']);
 
@@ -46,7 +38,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/gestantes/{id}/signos-vitales', [SignoVitalController::class, 'index']);
 
         // Contenido educativo (solo para la app)
-        Route::get('/educacion', [ContenidoEducativoController::class, 'index']);
+        // Route::get('/educacion', [ContenidoEducativoController::class, 'index']);
 
         // Alertas generadas
         Route::get('/gestantes/{id}/alertas', [AlertaController::class, 'index']);
@@ -54,9 +46,6 @@ Route::prefix('v1')->group(function () {
         // Notificaciones
         Route::get('/gestantes/{id}/notificaciones', [NotificacionController::class, 'index']);
         Route::post('/fcm/token', [FirebaseController::class, 'storeToken']);
-        // Notificación manual a gestante
-        Route::post('/gestantes/{id}/notificar', [FirebaseController::class, 'notificar']);
-
 
     });
 });

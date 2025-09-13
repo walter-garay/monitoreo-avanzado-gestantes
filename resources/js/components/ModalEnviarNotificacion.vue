@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Input } from '@/components/ui/input';
 import { ref } from 'vue';
 
-defineProps<{ gestanteId: number }>();
+defineProps<{ gestanteId: number; loading?: boolean }>();
 
 const emit = defineEmits(['enviar', 'cancelar']);
 const titulo = ref('');
@@ -60,8 +60,11 @@ function handleCancelar() {
                 <InputError :message="errorDescripcion" />
             </div>
             <DialogFooter class="flex justify-end gap-2">
-                <Button variant="secondary" @click="handleCancelar">Cancelar</Button>
-                <Button @click="handleEnviar">Enviar</Button>
+                <Button variant="secondary" @click="handleCancelar" :disabled="loading">Cancelar</Button>
+                <Button @click="handleEnviar" :disabled="loading">
+                    <span v-if="loading">Enviando...</span>
+                    <span v-else>Enviar</span>
+                </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>

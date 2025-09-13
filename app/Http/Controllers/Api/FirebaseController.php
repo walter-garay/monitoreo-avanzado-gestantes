@@ -26,10 +26,14 @@ class FirebaseController extends Controller
 
     public function sendToDevice(string $token, string $title, string $body, array $data = [])
     {
-        // Construir el mensaje con el token directamente
-        $message = CloudMessage::new($token)  // Aquí pasamos el token directamente
-            ->withNotification(Notification::create($title, $body))
-            ->withData($data);
+        $message = CloudMessage::fromArray([
+            'token' => $token,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+            'data' => $data,
+        ]);
 
         return $this->messaging->send($message);
     }
@@ -57,19 +61,10 @@ class FirebaseController extends Controller
                 ['user_id' => $user->id, 'platform' => $request->platform ?? 'android']
             );
 
-            // Registrar un log indicando que el token se guardó correctamente
-            Log::info("Token registrado correctamente para el usuario: " . $user->id);
-
             // Responder con un mensaje de éxito
             return response()->json(['message' => 'Token registrado correctamente']);
         } catch (\Exception $e) {
-            // Si ocurre cualquier excepción, registrar el error y devolver una respuesta con el error
-            Log::error('Error al registrar el token FCM: ' . $e->getMessage(), [
-                'exception' => $e,
-                'request' => $request->all(), // Puedes registrar más detalles sobre la solicitud si lo deseas
-            ]);
-
-            // Responder con un error detallado
+            // Si ocurre cualquier excepción, devolver una respuesta con el error
             return response()->json([
                 'error' => 'Hubo un problema al registrar el token FCM',
                 'message' => $e->getMessage()
@@ -90,7 +85,7 @@ class FirebaseController extends Controller
         $user = \App\Models\User::findOrFail($id);
         $tokens = $user->deviceTokens()->pluck('token')->toArray();
         if (empty($tokens)) {
-            return response()->json(['error' => 'La gestante no tiene dispositivos registrados'], 404);
+            return response()->json(['error' => 'La gestante no tiene dispositivos registrados'], 422);
         }
 
         $errores = [];

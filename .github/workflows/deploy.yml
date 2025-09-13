@@ -1,0 +1,45 @@
+name: 🚀 Deploy Laravel + Vue to Hostinger
+
+on:
+  push:
+    branches:
+      - main   # cámbialo si tu rama principal es diferente
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          script: |
+            cd ~/htdocs/monitoreo.em.sistemasudh.com
+
+            echo "===> Actualizando código..."
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "===> Instalando dependencias PHP..."
+            composer install --no-dev --optimize-autoloader
+
+            echo "===> Migrando base de datos..."
+            php artisan migrate --force
+
+            echo "===> Compilando frontend..."
+            npm install
+            npm run build
+
+            echo "===> Cacheando configuración..."
+            php artisan config:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            echo "===> ✅ Deploy finalizado"

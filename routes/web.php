@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\Api\FirebaseController;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GestanteController;
@@ -22,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Monitoreo de gestante
     Route::get('/monitor/{gestante}', [GestanteController::class, 'monitor'])->name('gestantes.monitor');
+
+    // Notificación manual a gestante
+    Route::post('/gestantes/{id}/notificar', [FirebaseController::class, 'notificar']);
+
 });
 
 require __DIR__.'/settings.php';

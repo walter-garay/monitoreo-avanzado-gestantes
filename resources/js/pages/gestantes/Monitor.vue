@@ -3,6 +3,7 @@ import ModalEnviarNotificacion from '@/components/ModalEnviarNotificacion.vue';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios';
 import { computed, type PropType, ref } from 'vue';
 import ListaSintomas from './componentes/ListaSintomas.vue';
 import SeguimientoSalud from './componentes/SeguimientoSalud.vue';
@@ -49,26 +50,28 @@ const whatsappLink = computed(() => {
 });
 
 const mostrarModalNotificacion = ref(false);
+const loadingNotificacion = ref(false);
 
 async function enviarNotificacion({ titulo, descripcion }: { titulo: string; descripcion: string }) {
+    loadingNotificacion.value = true;
     try {
-        const response = await fetch(`/api/v1/gestantes/${props.gestante.id}/notificar`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
+        await axios.post(
+            `/gestantes/${props.gestante.id}/notificar`,
+            { titulo, descripcion },
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
             },
-            body: JSON.stringify({ titulo, descripcion }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-            alert('Notificación enviada correctamente');
-        } else {
-            alert('Error al enviar notificación: ' + (data.message || 'Error desconocido'));
-        }
-    } catch (e) {
-        alert('Error de red al enviar notificación');
+        );
+        alert('Notificación enviada correctamente');
+    } catch (e: any) {
+        alert('Error al enviar notificación: ' + (e.response?.data?.message || e.message || e));
+    } finally {
+        loadingNotificacion.value = false;
     }
 }
 
@@ -131,10 +134,10 @@ function isGestantePreRiesgosa(g: any) {
             <ModalEnviarNotificacion
                 v-if="mostrarModalNotificacion"
                 :gestante-id="gestante.id"
+                :loading="loadingNotificacion"
                 @enviar="
-                    (data) => {
-                        mostrarModalNotificacion = false;
-                        enviarNotificacion(data);
+                    async (data) => {
+                        await enviarNotificacion(data);
                     }
                 "
                 @cancelar="
