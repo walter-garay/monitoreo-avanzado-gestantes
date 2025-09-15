@@ -5,7 +5,7 @@ import { formatDate } from '@/lib/dateUtils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { Activity, HeartPulse, Thermometer } from 'lucide-vue-next';
-import { PropType, computed } from 'vue';
+import { PropType, computed, onMounted, ref, watch } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -119,6 +119,44 @@ const resumenContadores = computed(() => {
         }
     }
     return { riesgo, preRiesgo, normal };
+});
+
+// Audio de alerta cuando exista al menos una gestante en riesgo
+const yaAnunciado = ref(false);
+
+function reproducirAlerta() {
+    // Usamos Web Speech API si está disponible
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance('ALERTA: GESTANTE EN RIESGO. ALERTA: GESTANTE EN RIESGO. ALERTA: GESTANTE EN RIESGO');
+        // Intentar usar una voz en español si existe
+        utter.lang = 'es-ES';
+        try {
+            window.speechSynthesis.cancel();
+        } catch {}
+        window.speechSynthesis.speak(utter);
+    }
+}
+
+// Vigilar cambios en el conteo de riesgo
+watch(
+    () => resumenContadores.value.riesgo,
+    (nuevo) => {
+        if (nuevo > 0 && !yaAnunciado.value) {
+            reproducirAlerta();
+            yaAnunciado.value = true;
+        }
+        if (nuevo === 0) {
+            yaAnunciado.value = false;
+        }
+    },
+);
+
+// Anunciar si al cargar ya hay riesgo
+onMounted(() => {
+    if (resumenContadores.value.riesgo > 0 && !yaAnunciado.value) {
+        reproducirAlerta();
+        yaAnunciado.value = true;
+    }
 });
 </script>
 
