@@ -16,7 +16,7 @@ class PresionArterialSeeder extends Seeder
             for ($i = 0; $i < 50; $i++) {
                 DB::table('presion_arterials')->insert([
                     'gestante_id' => $gestante->id,
-                    'valor_sistolica' => rand(100, 140),
+                    'valor_sistolica' => rand(100, 150),
                     'valor_diastolica' => rand(60, 90),
                     'hora_lectura' => Carbon::now()->subDays(rand(0, 100))->addMinutes(rand(0, 1440)),
                     'created_at' => now(),
