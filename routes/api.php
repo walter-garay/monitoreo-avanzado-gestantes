@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\SignoVitalController;
 use App\Http\Controllers\Api\AlertaController;
 use App\Http\Controllers\Api\NotificacionController;
 use App\Http\Controllers\Api\FirebaseController;
+use App\Http\Controllers\Api\HealthKitController;
 
 
 Route::prefix('v1')->group(function () {
@@ -18,6 +19,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    // ✅ Endpoint público para recibir notificaciones de HealthKit
+    Route::post('/healthkit/notifications', [HealthKitController::class, 'receive']);
+
 
     // Rutas protegidas con Sanctum
     Route::middleware('auth:sanctum')->group(function () {
@@ -46,6 +51,7 @@ Route::prefix('v1')->group(function () {
         // Notificaciones
         Route::get('/gestantes/{id}/notificaciones', [NotificacionController::class, 'index']);
         Route::post('/fcm/token', [FirebaseController::class, 'storeToken']);
+
 
     });
 });
