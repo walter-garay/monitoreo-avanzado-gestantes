@@ -21,6 +21,7 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
             cd ~/htdocs/monitoreo.em.sistemasudh.com
+            git config --global --add safe.directory /home/sistemasudh-monitoreo-em/htdocs/monitoreo.em.sistemasudh.com
 
             echo "===> Actualizando código..."
             git fetch --all
