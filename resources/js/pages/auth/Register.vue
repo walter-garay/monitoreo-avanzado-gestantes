@@ -13,9 +13,15 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
+    accept_privacy: false,
 });
 
 const submit = () => {
+    if (!form.accept_privacy) {
+        form.setError('accept_privacy', 'Debe aceptar los Términos y Condiciones y la Política de Privacidad para continuar.');
+        return;
+    }
+    form.clearErrors('accept_privacy');
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -85,7 +91,25 @@ const submit = () => {
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 
-                <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
+                <div class="flex items-center gap-3">
+                    <input
+                        id="accept_privacy"
+                        type="checkbox"
+                        class="mt-1 h-4 w-4 rounded border-neutral-300 text-[#f53003] focus:ring-[#f53003] dark:border-neutral-700"
+                        v-model="form.accept_privacy"
+                        :tabindex="5"
+                        required
+                    />
+                    <Label for="accept_privacy" class="text-sm leading-5 whitespace-nowrap">
+                        Acepto los
+                        <a :href="route('terms')" target="_blank" class="whitespace-nowrap text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]">Términos y Condiciones</a>
+                        y la
+                        <a :href="route('privacy-policy')" target="_blank" class="whitespace-nowrap text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]">Política de Privacidad</a>.
+                    </Label>
+                </div>
+                <InputError :message="form.errors.accept_privacy" />
+
+                <Button type="submit" class="mt-2 w-full" tabindex="6" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Crear cuenta
                 </Button>
@@ -93,7 +117,7 @@ const submit = () => {
 
             <div class="text-muted-foreground text-center text-sm">
                 ¿Ya tienes una cuenta?
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Iniciar sesión</TextLink>
+                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="7">Iniciar sesión</TextLink>
             </div>
         </form>
     </AuthBase>

@@ -5,11 +5,22 @@ use App\Http\Controllers\Api\FirebaseController;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GestanteController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
     // return Inertia::render('Welcome');
     return redirect()->route('dashboard');
 })->name('home');
+
+// Privacy Policy
+Route::get('/privacy-policy', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('privacy-policy');
+
+// Terms and Conditions
+Route::get('/terms', function () {
+    return Inertia::render('TermsAndConditions');
+})->name('terms');
 
 // Grupo de rutas protegidas
 Route::middleware(['auth', 'verified'])->group(function () {
