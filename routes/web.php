@@ -8,8 +8,7 @@ use App\Http\Controllers\GestanteController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    // return Inertia::render('Welcome');
-    return redirect()->route('dashboard');
+    return Inertia::render('Welcome');
 })->name('home');
 
 // Privacy Policy

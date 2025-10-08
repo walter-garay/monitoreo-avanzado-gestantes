@@ -91,7 +91,7 @@ const submit = () => {
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 
-                <div class="flex items-center gap-3">
+                <div class="flex items-start gap-3">
                     <input
                         id="accept_privacy"
                         type="checkbox"
@@ -100,11 +100,9 @@ const submit = () => {
                         :tabindex="5"
                         required
                     />
-                    <Label for="accept_privacy" class="text-sm leading-5 whitespace-nowrap">
-                        Acepto los
-                        <a :href="route('terms')" target="_blank" class="whitespace-nowrap text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]">Términos y Condiciones</a>
-                        y la
-                        <a :href="route('privacy-policy')" target="_blank" class="whitespace-nowrap text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]">Política de Privacidad</a>.
+                    <Label for="accept_privacy" class="text-sm leading-5 whitespace-normal break-words flex-3">
+                        <p>Acepto los <a :href="route('terms')" target="_blank" class="text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]">Términos y Condiciones</a> y la <a :href="route('privacy-policy')" target="_blank" class="text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]">Política de Privacidad</a>.</p>
+
                     </Label>
                 </div>
                 <InputError :message="form.errors.accept_privacy" />

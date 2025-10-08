@@ -3,15 +3,137 @@ import { Head, Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Welcome">
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <Head title="Bienvenida">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
     </Head>
-    <div class="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
+    <!-- Nuevo landing page -->
+    <div class="min-h-screen bg-[#F4F4F4] text-[#1b1b18]" style="font-family: Inter, system-ui">
+        <!-- Header -->
+        <header class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
+            <div class="flex items-center gap-2">
+                <img src="/storage/images/logo.png" alt="MAMI" class="h-9 w-9 rounded-2xl object-cover shadow-sm" />
+                <span class="font-semibold" style="font-family: Poppins, Inter">MAMI</span>
+            </div>
+            <nav class="hidden gap-4 text-sm sm:flex">
+                <a href="#como" class="text-[#5b5b57] hover:text-[#1b1b18]">Cómo te ayuda</a>
+                <a href="#centro" class="text-[#5b5b57] hover:text-[#1b1b18]">Centro de salud</a>
+                <a href="#funciones" class="text-[#5b5b57] hover:text-[#1b1b18]">Funciones</a>
+                <a href="#testimonios" class="text-[#5b5b57] hover:text-[#1b1b18]">Testimonios</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <Link :href="route('login')" class="hidden rounded-full px-4 py-2 text-sm text-[#1b1b18] hover:underline sm:inline">Iniciar sesión</Link>
+                <a href="#descargar" class="rounded-full bg-[#8ED1B2] px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90" style="font-family: Poppins">Descargar App</a>
+            </div>
+        </header>
+
+        <!-- Hero -->
+        <section class="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-white px-6 pb-12 pt-10 sm:px-10 sm:pt-14 lg:pb-20" style="background: radial-gradient(1200px_400px_at_80%_-10%,#F9C8D0_0%,rgba(249,200,208,0)_60%), radial-gradient(800px_300px_at_10%_0%,#8ED1B2_0%,rgba(142,209,178,0)_60%), #FFFFFF;">
+            <div class="grid items-center gap-10 lg:grid-cols-2">
+                <div>
+                    <h1 class="text-3xl font-semibold leading-tight text-[#1b1b18] sm:text-4xl lg:text-5xl" style="font-family: Poppins, Inter">Tu bienestar y el de tu bebé, siempre bajo cuidado.</h1>
+                    <p class="mt-4 max-w-xl text-base text-[#5b5b57] sm:text-lg">Monitorea tus signos vitales y recibe alertas tempranas sobre preeclampsia con nuestra app inteligente.</p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <a href="#descargar" class="rounded-full bg-[#8ED1B2] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="font-family: Poppins">Descargar App</a>
+                        <a href="#como" class="rounded-full border border-[#D9D9D9] bg-white px-6 py-3 text-sm font-semibold text-[#1b1b18] hover:bg-[#F9FAFB]" style="font-family: Poppins">Ver cómo funciona</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img 
+                        src="/storage/images/landing/gestante_usando_mami.webp" 
+                        alt="Mujer gestante usando MAMI" 
+                        class="mx-auto h-[420px] w-auto max-w-full rounded-3xl object-cover shadow-xl"
+                        loading="lazy"
+                        width="400"
+                        height="420"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Cómo te ayuda -->
+        <section id="como" class="mx-auto mt-10 max-w-7xl rounded-3xl bg-white px-6 py-12 sm:px-10">
+            <h2 class="text-2xl font-semibold text-[#1b1b18] sm:text-3xl" style="font-family: Poppins">Tu salud, acompañada paso a paso.</h2>
+            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="rounded-2xl border border-[#EDEDED] bg-white p-6 shadow-sm">
+                    <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F9C8D0] text-xl">🩸</div>
+                    <h3 class="font-semibold" style="font-family: Poppins">Monitoreo en tiempo real</h3>
+                    <p class="mt-2 text-sm text-[#5b5b57]">Conecta tu Huawei Watch D2 y visualiza tus signos vitales al instante.</p>
+                </div>
+                <div class="rounded-2xl border border-[#EDEDED] bg-white p-6 shadow-sm">
+                    <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8ED1B2] text-xl">🔔</div>
+                    <h3 class="font-semibold" style="font-family: Poppins">Alertas inteligentes</h3>
+                    <p class="mt-2 text-sm text-[#5b5b57]">Recibe notificaciones cuando detectemos valores fuera de lo normal.</p>
+                </div>
+                <div class="rounded-2xl border border-[#EDEDED] bg-white p-6 shadow-sm">
+                    <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F4F4F4] text-xl">📚</div>
+                    <h3 class="font-semibold" style="font-family: Poppins">Aprende y cuídate</h3>
+                    <p class="mt-2 text-sm text-[#5b5b57]">Descubre información confiable sobre la preeclampsia y cómo prevenirla.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Centro de salud -->
+        <section id="centro" class="mx-auto mt-10 max-w-7xl rounded-3xl bg-white px-6 py-12 sm:px-10">
+            <h2 class="text-2xl font-semibold text-[#1b1b18] sm:text-3xl" style="font-family: Poppins">Tu centro de salud, siempre contigo.</h2>
+            <p class="mt-4 max-w-3xl text-[#5b5b57]">Los profesionales monitorean tus datos de forma segura a través del sistema web, listos para apoyarte cuando lo necesites.</p>
+            <div class="mt-6 rounded-2xl border border-[#EDEDED] bg-[#FAFAFA] p-8 text-sm text-[#5b5b57]">Personal médico revisando un dashboard con gráficas de varias gestantes.</div>
+        </section>
+
+        <!-- Funciones -->
+        <section id="funciones" class="mx-auto mt-10 max-w-7xl rounded-3xl bg-white px-6 py-12 sm:px-10">
+            <h2 class="text-2xl font-semibold text-[#1b1b18] sm:text-3xl" style="font-family: Poppins">Todo lo que necesitas para cuidarte.</h2>
+            <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+                <li class="flex items-center gap-3 rounded-xl border border-[#EDEDED] bg-white p-4"><span class="text-xl">❤️</span> <span>Sincroniza tu Huawei Health</span></li>
+                <li class="flex items-center gap-3 rounded-xl border border-[#EDEDED] bg-white p-4"><span class="text-xl">📊</span> <span>Observa tus signos vitales</span></li>
+                <li class="flex items-center gap-3 rounded-xl border border-[#EDEDED] bg-white p-4"><span class="text-xl">📝</span> <span>Registra tus síntomas</span></li>
+                <li class="flex items-center gap-3 rounded-xl border border-[#EDEDED] bg-white p-4"><span class="text-xl">🔔</span> <span>Recibe alertas y consejos</span></li>
+            </ul>
+        </section>
+
+        <!-- Testimonios -->
+        <section id="testimonios" class="mx-auto mt-10 max-w-7xl rounded-3xl bg-white px-6 py-12 sm:px-10">
+            <blockquote class="rounded-2xl bg-[#FFF7F8] p-6 text-[#1b1b18] shadow-sm">
+                <p class="text-lg italic text-[#4a4a46]">“Ahora entiendo mejor mis signos y me siento acompañada cada día.”</p>
+                <footer class="mt-3 text-sm text-[#6b6b67]">— María, 27 años – Huánuco</footer>
+            </blockquote>
+        </section>
+
+        <!-- CTA final -->
+        <section id="descargar" class="mx-auto my-12 max-w-7xl overflow-hidden rounded-3xl bg-white px-6 py-10 text-center sm:px-10" style="background: linear-gradient(180deg, #FFFFFF 0%, #F9FCFB 100%)">
+            <h2 class="text-2xl font-semibold text-[#1b1b18] sm:text-3xl" style="font-family: Poppins">Cuida de ti y de tu bebé con nuestra app.</h2>
+            <p class="mx-auto mt-3 max-w-2xl text-[#5b5b57]">Descarga la aplicación y empieza a monitorear tu bienestar de forma fácil y segura.</p>
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+                <a class="rounded-full bg-[#8ED1B2] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="font-family: Poppins">Descargar App Android</a>
+                <a class="rounded-full border border-[#D9D9D9] bg-white px-6 py-3 text-sm font-semibold text-[#1b1b18] hover:bg-[#F9FAFB]" style="font-family: Poppins">Más información</a>
+            </div>
+            <div class="mt-4 flex items-center justify-center gap-3 text-sm text-[#6b6b67]">
+                <span>Play Store</span>
+                <span class="opacity-60">·</span>
+                <span>Próximamente en App Store</span>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-[#EDEDED] bg-white/80 py-8">
+            <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 text-sm sm:flex-row">
+                <nav class="flex gap-4">
+                    <a href="#" class="text-[#5b5b57] hover:text-[#1b1b18]">Sobre el proyecto</a>
+                    <a href="#" class="text-[#5b5b57] hover:text-[#1b1b18]">Contacto</a>
+                    <a href="#" class="text-[#5b5b57] hover:text-[#1b1b18]">Política de privacidad</a>
+                </nav>
+                <div class="text-[#6b6b67]">Proyecto de tesis 2025 – Universidad Nacional Hermilio Valdizán, Huánuco 🇵🇪</div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Contenido anterior oculto -->
+    <div class="hidden min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
         <header class="not-has-[nav]:hidden mb-6 w-full max-w-[335px] text-sm lg:max-w-4xl">
             <nav class="flex items-center justify-end gap-4">
                 <Link
-                    v-if="$page.props.auth.user"
+                    v-if="false"
                     :href="route('dashboard')"
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
@@ -192,7 +314,7 @@ import { Head, Link } from '@inertiajs/vue3';
                             />
                         </g>
                         <g
-                            :style="{ mixBlendMode: 'hard-light' }"
+                            style="mix-blend-mode: hard-light;"
                             class="duration-750 starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100 transition-all delay-300"
                         >
                             <path
@@ -215,7 +337,7 @@ import { Head, Link } from '@inertiajs/vue3';
                             />
                         </g>
                         <g
-                            :style="{ mixBlendMode: 'plus-darker' }"
+                            style="mix-blend-mode: plus-darker;"
                             class="duration-750 starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100 transition-all delay-300"
                         >
                             <path
